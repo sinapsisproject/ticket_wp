@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.4.1, created on 2024-07-01 03:21:31
+/* Smarty version 4.4.1, created on 2024-07-01 13:10:20
   from 'C:\wamp64\www\sinapsis\wp-content\plugins\ticket_wp\public\partials\congreso.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.4.1',
-  'unifunc' => 'content_668220bb408b18_47510987',
+  'unifunc' => 'content_6682aabc269930_30360919',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '9c72b44c923bf6a4272965216e62a4960d44d5e4' => 
     array (
       0 => 'C:\\wamp64\\www\\sinapsis\\wp-content\\plugins\\ticket_wp\\public\\partials\\congreso.tpl',
-      1 => 1719637218,
+      1 => 1719839416,
       2 => 'file',
     ),
   ),
@@ -20,13 +20,13 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_668220bb408b18_47510987 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6682aabc269930_30360919 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class="formulario_venta" style="display: block;">
 
     <div class="container">
-        <div class="col-12 text-center">
+        <!-- <div class="col-12 text-center">
             <h1 class="title-congreso">Endocrinología y Diabetología Hospitalaria: desde la Consulta a la UPC.</h1>
-        </div>
+        </div> -->
 
 
         <div class="row justify-content-center mt-5">

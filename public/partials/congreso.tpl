@@ -1,9 +1,9 @@
 <div class="formulario_venta" style="display: block;">
 
     <div class="container">
-        <div class="col-12 text-center">
+        <!-- <div class="col-12 text-center">
             <h1 class="title-congreso">Endocrinología y Diabetología Hospitalaria: desde la Consulta a la UPC.</h1>
-        </div>
+        </div> -->
 
 
         <div class="row justify-content-center mt-5">
@@ -138,7 +138,7 @@
         
             <div class="row">
                 <div class="col-12 col-md-5">
-                    <img src="http://local.sinapsis.cl/wp-content/uploads/2024/02/Estrategia-HEARTS.png" alt="">
+                    <img src="https://sinapsisclinica.com/wp-content/uploads/2024/07/Endocrinologia-y-Diabetologia-Hospitalaria-Desde-la-Consulta-a-la-UPC-1.png" alt="">
                 </div>
                 <div class="col-12 col-md-7">
                     <p style="font-size: 20px"><strong>Endocrinología y Diabetología Hospitalaria: desde la Consulta a la UPC.</strong></p>
