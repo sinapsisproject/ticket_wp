@@ -59,6 +59,8 @@
         $usuarios = RfCoreCurl::curl('/api/ticket/usuarios' , 'GET' , NULL , NULL);
 
         $smarty->assign('usuarios', $usuarios);
+        $smarty->assign('logo_paypal', plugins_url( '/public/assets/img/paypal_logo.svg' , __FILE__ ));
+        $smarty->assign('logo_webpayl', plugins_url( '/public/assets/img/webpay_logo.svg' , __FILE__ ));
 
         return $smarty->fetch('congreso.tpl');
         
@@ -70,9 +72,6 @@
     function shortcode_pago_ok_ticket($atts){
 
         $order = $_GET["order"];
-
-        //$user_id = get_current_user_id();
-        //$token   = get_user_meta($user_id, 'tokensinapsisplatform', true);
 
         $smarty = new Smarty;
 

@@ -180,7 +180,7 @@
                                 <div class="col-12 text-center">
                                     <p>Desde Chile</p>
                                     <input value="webpay" type="radio" class="btn-check" name="options" id="option1">
-                                    <label class="button_type_pay btn btn-secondary" for="option1"><img src="/wp-content/plugins/congreso_wp/public/assets/img/webpay_logo.svg" alt=""></label>
+                                    <label class="button_type_pay btn btn-secondary" for="option1"><img src="{$logo_webpayl}" alt=""></label>
                                 </div>
                                 <div class="col-12 text-center mt-2">
                                     <div id="precio_pesos_pay"></div>
@@ -192,7 +192,7 @@
                                 <div class="col-12 text-center">
                                     <p>Desde el extranjero</p>
                                     <input value="paypal" type="radio" class="btn-check" name="options" id="option2">
-                                    <label class="button_type_pay btn btn-secondary" for="option2"><img src="/wp-content/plugins/congreso_wp/public/assets/img/paypal_logo.svg" alt=""></label> 
+                                    <label class="button_type_pay btn btn-secondary" for="option2"><img src="{$logo_paypal}" alt=""></label> 
                                 </div>
                                 <div class="col-12 text-center mt-2">
                                     <div id="precio_dolares_pay"></div>
