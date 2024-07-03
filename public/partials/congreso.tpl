@@ -48,7 +48,7 @@
 <div class="formulario_registro" style="display:none;">
 
     <div class="row">
-        <div class="col-6 block-left" style="background: white;">
+        <div class="col-12 col-md-6 block-left" style="background: white;">
            <h3>Datos de compra</h3>
 
             <div class="col-12 col-md-9 mb-3">
@@ -126,7 +126,7 @@
                 <div id="contrasena_ticket_register_error"></div>
             </div>
 
-            <button id="button_pay_ticket" type="button" style="display: inline-flex;">
+            <button id="button_pay_ticket" type="button">
                 <div id="loading_register_ticket" style="width: 1rem; height: 1rem; margin-right: 10px; display: none; margin-top: 4px;" class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
@@ -134,13 +134,15 @@
             </button>
 
         </div>
-        <div class="col-6 block-right" style="background: #445AFF;">
+
+
+        <div class="col-12 col-md-6 block-right price-container-ticket" style="background: #445AFF;">
         
             <div class="row">
                 <div class="col-12 col-md-5">
                     <img src="https://sinapsisclinica.com/wp-content/uploads/2024/07/Endocrinologia-y-Diabetologia-Hospitalaria-Desde-la-Consulta-a-la-UPC-1.png" alt="">
                 </div>
-                <div class="col-12 col-md-7">
+                <div class="col-12 col-md-7 text-center">
                     <p style="font-size: 20px"><strong>Endocrinología y Diabetología Hospitalaria: desde la Consulta a la UPC.</strong></p>
                 </div>
 
