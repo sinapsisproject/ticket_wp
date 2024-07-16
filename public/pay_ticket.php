@@ -13,6 +13,14 @@ $response_user_sinapsis = RfCoreUtils::register_user($userData["nombre_ticket"] 
 
 if($response_user_sinapsis->status == true){
 
+    $user_data = array(
+        'user_login' => $userData["correo_ticket"],
+        'user_pass'  =>  $userData["contrasena_ticket"],
+        'user_email' => $userData["correo_ticket"],
+        'role'       => 'subscriber',
+        'show_admin_bar_front' => 'false'
+    );
+    $user_id = wp_insert_user($user_data);
 
     $user_body = [
         "nombre"    => $userData["nombre_ticket"],
