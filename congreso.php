@@ -37,10 +37,11 @@
             'congreso-script',
             'wp_ajax_congreso_ticket',
             array(
-                'ajax_url_productos'        => plugins_url( '/public/productos.php' , __FILE__ ),
-                'ajax_url_save_order'       => plugins_url( '/public/save_order.php' , __FILE__ ),
-                'ajax_url_pay_ticket'       => plugins_url( '/public/pay_ticket.php' , __FILE__ ),
-                'ajax_url_motores'          => plugins_url( '/public/motores.php' , __FILE__ )
+                'ajax_url_productos'    => plugins_url( '/public/productos.php' , __FILE__ ),
+                'ajax_url_save_order'   => plugins_url( '/public/save_order.php' , __FILE__ ),
+                'ajax_url_pay_ticket'   => plugins_url( '/public/pay_ticket.php' , __FILE__ ),
+                'ajax_url_motores'      => plugins_url( '/public/motores.php' , __FILE__ ),
+                'ajax_url_promo_code'   => plugins_url( '/public/promo_codes_validate.php' , __FILE__ )
             )
         );
 

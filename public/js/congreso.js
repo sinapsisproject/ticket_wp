@@ -1,6 +1,9 @@
 let jsonData = {};
 let userData = {};
 
+let precio_pesos;
+let precio_dolar;
+
 jQuery(document).ready( function(){
 
   let valor = 0;
@@ -176,8 +179,8 @@ jQuery(document).ready( function(){
 
       let packs = [];
       let labelPacks = [];
-      let precio_pesos = 0;
-      let precio_dolar = 0;
+      precio_pesos = 0;
+      precio_dolar = 0;
       jQuery('.btn-check:checked').each(function() {
         let valor = parseInt(jQuery(this).attr('packId'));
         packs.push(valor);
@@ -258,6 +261,9 @@ jQuery(document).ready( function(){
 
   jQuery("#button_pay_ticket").on("click" , function(){
 
+    //let fileInput = jQuery('#certificado_ticket')[0].files[0];
+    //console.log(formData);
+
       let nombre_ticket     = jQuery("#nombre_ticket").val();
       let apellido_ticket   = jQuery("#apellido_ticket").val();
       let correo_ticket     = jQuery("#correo_ticket").val();
@@ -265,32 +271,52 @@ jQuery(document).ready( function(){
       let pais_ticket       = jQuery("#pais_ticket").val();
       let telefono_ticket   = jQuery("#telefono_ticket").val();
       let ocupacion_ticket  = jQuery("#ocupacion_ticket").val();
+      let certificado_ticket= jQuery('#certificado_ticket')[0].files[0];
       let trabajo_ticket    = jQuery("#trabajo_ticket").val();
       let contrasena_ticket = jQuery("#contrasena_ticket").val();
 
 
-      let data = {
-        "nombre_ticket" : nombre_ticket,
-        "apellido_ticket" : apellido_ticket,
-        "correo_ticket" : correo_ticket,
-        "fecha_ticket" : fecha_ticket,
-        "pais_ticket" : pais_ticket,
-        "telefono_ticket" : telefono_ticket,
-        "ocupacion_ticket" : ocupacion_ticket,
-        "trabajo_ticket" : trabajo_ticket,
-        "contrasena_ticket" : contrasena_ticket,
-        "jsonData" : jsonData
-      }
+      const formData = new FormData();
+      formData.append('nombre_ticket', nombre_ticket);
+      formData.append('apellido_ticket', apellido_ticket);
+      formData.append('correo_ticket', correo_ticket);
+      formData.append('fecha_ticket', fecha_ticket);
+      formData.append('pais_ticket', pais_ticket);
+      formData.append('telefono_ticket', telefono_ticket);
+      formData.append('ocupacion_ticket', ocupacion_ticket);
+      formData.append('certificado_ticket', certificado_ticket);
+      formData.append('trabajo_ticket', trabajo_ticket);
+      formData.append('contrasena_ticket', contrasena_ticket);
+      formData.append('jsonData', jsonData);
+      
+
+      // let data = {
+      //   "nombre_ticket" : nombre_ticket,
+      //   "apellido_ticket" : apellido_ticket,
+      //   "correo_ticket" : correo_ticket,
+      //   "fecha_ticket" : fecha_ticket,
+      //   "pais_ticket" : pais_ticket,
+      //   "telefono_ticket" : telefono_ticket,
+      //   "ocupacion_ticket" : ocupacion_ticket,
+      //   "certificado_ticket" : formData,
+      //   "trabajo_ticket" : trabajo_ticket,
+      //   "contrasena_ticket" : contrasena_ticket,
+      //   "jsonData" : jsonData
+      // }
 
 
       jQuery.ajax({
         type : "post",
         url : wp_ajax_congreso_ticket.ajax_url_save_order,
-        data : data,
+        data : formData,
+        contentType: false,
+        processData: false,
         error: function(response){
             console.log(response);
         },
         success: function(response) {
+
+          console.log(response);
 
           jQuery('[id*="_register_error"]').html("");
 
@@ -352,12 +378,16 @@ jQuery(document).ready( function(){
   jQuery("#button_insert_pay_motor").on("click" , function(){
 
     const plataforma = jQuery('input[name="options"]:checked').val();
+    const promo_code = jQuery("#codigo_descuento_ticket").val();
+
+    console.log(promo_code);
 
     const data = {
       user_data : userData,
       platform_pay : plataforma,
       json_data : jsonData,
-      date : new Date()
+      date : new Date(),
+      promo_code : promo_code
     }
 
     jQuery.ajax({
@@ -433,6 +463,130 @@ jQuery(document).ready( function(){
   });
 
 
+  jQuery("#promo_code_button").on("click" , function(){
+
+    let html_desc_totales = "";
+
+    let codigo = jQuery("#codigo_descuento_ticket").val();
+
+    let data = {
+      "promo_code" : codigo
+    }
+
+    jQuery.ajax({
+      type : "post",
+      url : wp_ajax_congreso_ticket.ajax_url_promo_code,
+      data : data,
+      error: function(response){
+          console.log(response);
+      },
+      success: function(response) {
+
+        jQuery('[id*="_promo_error"]').html("");
+
+        if(response.status == false){
+
+          let html_totales_error = '';
+
+          response.errors.forEach(element => {
+            jQuery("#"+element.id+"_promo_error").html("<p style='color : #ff7c7c; font-size: 13px;'>"+element.text+"</p>");
+          });
+
+          html_totales_error += '<div class="row mt-5">'+
+            '<div class="col-6">'+
+                '<p>Subtotal:</p>'+
+            '</div>'+
+            '<div class="col-6 text-end">'+
+                '<p>'+formattedNumberChileanMoney(precio_pesos)+'.-</p>'+
+            '</div>'+
+            '</div>'+
+
+            '<hr style="height: 2px; background-color: white;  border: none;">'+
+
+            '<div class="row" id="totales_products">'+
+                '<div class="col-6">'+
+                    '<p style="font-size: 20px;">Total:</p>'+
+                '</div>'+
+                '<div class="col-6 text-end">'+
+                    '<p style="font-size: 20px;">'+formattedNumberChileanMoney(precio_pesos)+'.-</p>'+
+                '</div>'+
+
+                '<div class="col-6">'+
+                    '<p style="font-size: 20px;">Total dólares:</p>'+
+                '</div>'+
+                '<div class="col-6 text-end">'+
+                    '<p style="font-size: 20px;">$'+precio_pesos / 1000+' USD.-</p>'+
+                '</div>'+
+            '</div>';
+
+            jQuery("#totales_products").html(html_totales_error);
+            jQuery("#precio_pesos_pay").html('<p style="font-size: 20px;">'+formattedNumberChileanMoney(precio_pesos)+'.-</p>');
+            jQuery("#precio_dolares_pay").html('<p style="font-size: 20px;">$'+precio_pesos / 1000+' USD.-</p>');
+            
+
+        }else if(response.status == true){
+         
+          let descuento = response.response.response.descuento;
+          let monto_descuento = (precio_pesos * descuento) / 100;
+          let new_price = precio_pesos - monto_descuento;
+
+          html_desc_totales += '<div class="row mt-5">'+
+                            '<div class="col-6">'+
+                                '<p>Subtotal:</p>'+
+                            '</div>'+
+                            '<div class="col-6 text-end">'+
+                                '<p>'+formattedNumberChileanMoney(precio_pesos)+'.-</p>'+
+                            '</div>'+
+                        '</div>'+
+
+                        '<hr style="height: 2px; background-color: white;  border: none;">'+
+
+                        '<div class="row" id="totales_products">'+
+
+                            '<div class="col-6 mt-4">'+
+                                '<p style="font-size: 16px;">Descuento:</p>'+
+                            '</div>'+
+                            '<div class="col-6 text-end mt-4">'+
+                                '<p style="font-size: 16px;">'+descuento+' %OFF.-</p>'+
+                            '</div>'+
+
+
+                            '<div class="col-6">'+
+                                '<p style="font-size: 20px;">Total:</p>'+
+                            '</div>'+
+                            '<div class="col-6 text-end">'+
+                                '<p style="font-size: 20px;">'+formattedNumberChileanMoney(new_price)+'.-</p>'+
+                            '</div>'+
+
+                            '<div class="col-6">'+
+                                '<p style="font-size: 20px;">Total dólares:</p>'+
+                            '</div>'+
+                            '<div class="col-6 text-end">'+
+                                '<p style="font-size: 20px;">$'+new_price / 1000+' USD.-</p>'+
+                            '</div>'+
+                        '</div>'
+
+
+
+          jQuery("#totales_products").html(html_desc_totales);
+          jQuery("#precio_pesos_pay").html('<p style="font-size: 20px;">'+formattedNumberChileanMoney(new_price)+'.-</p>');
+          jQuery("#precio_dolares_pay").html('<p style="font-size: 20px;">$'+new_price / 1000+' USD.-</p>');
+
+        }
+
+      },
+      beforeSend: function (qXHR, settings) {
+        jQuery('#promo_code_button_loading').fadeIn();
+      },
+      complete: function () {
+        jQuery('#promo_code_button_loading').fadeOut();
+      },
+
+  })
+
+
+
+  })
 
 
 })

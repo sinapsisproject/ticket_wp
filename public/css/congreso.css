@@ -76,7 +76,14 @@
     margin-bottom: 40px;
     margin-top: 20px;
 }
-
+.button_descuento_code{
+    color: white;
+    background: #1f38f5 !important;
+    height: 45px !important;
+    padding: 10px !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
 
 @media (max-width: 991px) {
     .title-congreso{

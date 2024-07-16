@@ -115,6 +115,12 @@
             </div>
 
             <div class="col-12 col-md-9 mb-3">
+                <label class="form-label">Certificado</label>
+                <input id="certificado_ticket" type="file" class="form-control">
+                <div id="certificado_ticket_register_error"></div>
+            </div>
+
+            <div class="col-12 col-md-9 mb-3">
                 <label class="form-label">Lugar de desempeño</label>
                 <input id="trabajo_ticket" type="text" class="form-control">
                 <div id="trabajo_ticket_register_error"></div>
@@ -145,6 +151,29 @@
                 <div class="col-12 col-md-7 mt-4 mt-md-0">
                     <p style="font-size: 20px"><strong>Endocrinología y Diabetología Hospitalaria: desde la Consulta a la UPC.</strong></p>
                 </div>
+
+
+                <div class="col-12 mt-5">
+                    <div class="row">
+                        <div class="col-12">
+                            <label style="color : white;" class="form-label">Código de descuento</label>
+                        </div>
+                        <div class="col-6">
+                            <input id="codigo_descuento_ticket" type="text" class="form-control">
+                            <div id="codigo_descuento_promo_error"></div>
+                        </div>
+                        <div class="col-3 text-start">
+                            <button id="promo_code_button" class="button_descuento_code" type="button">
+                                <div id="promo_code_button_loading" style="width: 1rem; height: 1rem; margin-right: 10px; display: none; margin-top: 4px;" class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                Aplicar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
 
                 <div class="col-12 mt-4">
                     <h4>Detalles</h4>

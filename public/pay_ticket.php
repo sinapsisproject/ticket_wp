@@ -7,11 +7,12 @@ $jsonData = $_POST["json_data"];
 $platformPay = $_POST["platform_pay"];
 $userData = $_POST["user_data"];
 $date = $_POST["date"];
-
+$promo_code = $_POST["promo_code"];
 
 $response_user_sinapsis = RfCoreUtils::register_user($userData["nombre_ticket"] , $userData["correo_ticket"] , $userData["correo_ticket"] , $userData["fecha_ticket"] , $userData["pais_ticket"] , $userData["telefono_ticket"] , $userData["contrasena_ticket"] , 'activo' , 1);
 
 if($response_user_sinapsis->status == true){
+
 
     $user_body = [
         "nombre"    => $userData["nombre_ticket"],
@@ -20,6 +21,7 @@ if($response_user_sinapsis->status == true){
         "telefono" => $userData["telefono_ticket"],
         "correo_electronico" => $userData["correo_ticket"],
         "ocupacion" => $userData["ocupacion_ticket"],
+        "certificado" => $userData["certificado_ticket"],
         "lugar_de_desempeño" => $userData["trabajo_ticket"],
         "id_tipo_usuario" => $jsonData["idUserType"],
         "id_pais" => $userData["pais_ticket"]
@@ -33,6 +35,7 @@ if($response_user_sinapsis->status == true){
         $order_body = [
                 "idUserType" => $jsonData["idUserType"],
                 "idPacks" => $jsonData["idPacks"],
+                "promo_code" => $promo_code,
                 "dataUser" => [
                         "fecha" => $date,
                         "plataforma_pago" => $platformPay,

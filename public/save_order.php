@@ -2,7 +2,7 @@
 
 require(dirname(__FILE__) .'/../../../../wp-load.php');
 
-$errors = array();
+ $errors = array();
 
 if(sanitize_user($_POST["nombre_ticket"]) == ''){
     array_push($errors, ['id' => 'nombre_ticket' , 'text' => 'El campo Nombre es requerido.']);
@@ -50,6 +50,45 @@ if(sanitize_user($_POST["ocupacion_ticket"]) == ''){
     $ocupacion_ticket   = sanitize_user($_POST["ocupacion_ticket"]);
 }
 
+
+if($_FILES["certificado_ticket"] == NULL){
+    array_push($errors, ['id' => 'certificado_ticket' , 'text' => 'Debe ingresar un certificado.']);
+}else{
+
+    $fileName = $_FILES['certificado_ticket']['name'];
+    $fileInfo = pathinfo($fileName);
+    $fileExtension = $fileInfo['extension'];
+
+    if($fileExtension != "pdf" && $fileExtension != "jpg" && $fileExtension != "png"){
+        array_push($errors, ['id' => 'certificado_ticket' , 'text' => 'Solo se aceptan archivos en formato pdf, png, jpg.']);
+    }else{
+
+        $uploadDir = plugin_dir_path( __FILE__ ) . 'uploads/';
+        $uploadFile = $uploadDir .date('YmdHis').".".$fileExtension;
+        if (!is_dir($uploadDir)) {
+            $mk = mkdir($uploadDir, 0755, true);
+        }
+
+        $fileTmpName = $_FILES["certificado_ticket"]["tmp_name"];
+
+        $fileContents = file_get_contents($fileTmpName);
+        if ($fileContents === false) {
+            array_push($errors, ['id' => 'certificado_ticket' , 'text' => 'Error al subir el archivo.']);
+        }
+
+        if (file_put_contents($uploadFile, $fileContents)) {
+        
+            $certificado_ticket = plugins_url( 'uploads/'.date('YmdHis').".".$fileExtension , __FILE__ );
+
+        } else {
+            array_push($errors, ['id' => 'certificado_ticket' , 'text' => 'Error al subir el archivo.']);
+        }
+
+    }
+
+}
+
+
 if(sanitize_user($_POST["trabajo_ticket"]) == ''){
     array_push($errors, ['id' => 'trabajo_ticket' , 'text' => 'El campo Lugar de desempeño es requerido.']);
 }else{
@@ -80,6 +119,7 @@ if(count($errors) > 0){
         'pais_ticket'       => $pais_ticket,
         'telefono_ticket'   => $telefono_ticket,
         'ocupacion_ticket'  => $ocupacion_ticket,
+        'certificado_ticket'=> $certificado_ticket,
         'trabajo_ticket'    => $trabajo_ticket,
         'contrasena_ticket' => $contrasena_ticket
     );
