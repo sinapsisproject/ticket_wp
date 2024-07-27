@@ -660,7 +660,7 @@ jQuery(document).ready( function(){
           }
 
         }else{
-          jQuery("#error_password_ticket").html('<p style="color: red">Contraseña incorrectar</p>');
+          jQuery("#error_password_ticket").html('<p style="color: red">Contraseña incorrecta</p>');
         }
 
       },
