@@ -21,7 +21,7 @@ if($_POST["correo_ticket"] == ''){
 }else if(strlen($_POST["correo_ticket"]) > 0 && sanitize_email($_POST["correo_ticket"]) == ''){
     array_push($errors, ['id' => 'correo_ticket' , 'text' => 'El Correo electrónico no es válido']);
 }else if(strlen($_POST["correo_ticket"]) > 0 && email_exists(sanitize_email($_POST["correo_ticket"]))){
-    array_push($errors , ['id' => 'correo_ticket' , 'text' => 'El Correo electrónico ya fue registrado']);
+    array_push($errors , ['id' => 'correo_registrado_ticket' , 'text' => 'El Correo electrónico ya fue registrado']);
 }else{
     $correo_ticket  = sanitize_email($_POST["correo_ticket"]);
 }
@@ -104,11 +104,32 @@ if(esc_attr($_POST["contrasena_ticket"]) == ''){
 }
 
 
-if(count($errors) > 0){
+if(count($errors) > 1){
     wp_send_json( array(
         'status' => false,
         'errors' => $errors
     )); 
+}else if(count($errors) == 1 || $errors[0]["id"] == "correo_registrado_ticket"){
+
+    $user_data = array(
+        'nombre_ticket'     => $nombre_ticket,
+        'apellido_ticket'   => $apellido_ticket,
+        'correo_ticket'     => $correo_ticket,
+        'fecha_ticket'      => $fecha_ticket,
+        'pais_ticket'       => $pais_ticket,
+        'telefono_ticket'   => $telefono_ticket,
+        'ocupacion_ticket'  => $ocupacion_ticket,
+        'certificado_ticket'=> $certificado_ticket,
+        'trabajo_ticket'    => $trabajo_ticket,
+        'contrasena_ticket' => $contrasena_ticket
+    );
+
+    wp_send_json(array(
+        'status'    => false,
+        'user_data' => $user_data,
+        'errors' => $errors
+    ));
+
 }else{
 
     $user_data = array(
@@ -128,6 +149,7 @@ if(count($errors) > 0){
         'status'    => true,
         'user_data' => $user_data
     ));
+
 
 }
 

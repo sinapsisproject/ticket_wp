@@ -4,6 +4,8 @@ let userData = {};
 let precio_pesos;
 let precio_dolar;
 
+let login = 0;
+
 jQuery(document).ready( function(){
 
   let valor = 0;
@@ -290,20 +292,6 @@ jQuery(document).ready( function(){
       formData.append('jsonData', jsonData);
       
 
-      // let data = {
-      //   "nombre_ticket" : nombre_ticket,
-      //   "apellido_ticket" : apellido_ticket,
-      //   "correo_ticket" : correo_ticket,
-      //   "fecha_ticket" : fecha_ticket,
-      //   "pais_ticket" : pais_ticket,
-      //   "telefono_ticket" : telefono_ticket,
-      //   "ocupacion_ticket" : ocupacion_ticket,
-      //   "certificado_ticket" : formData,
-      //   "trabajo_ticket" : trabajo_ticket,
-      //   "contrasena_ticket" : contrasena_ticket,
-      //   "jsonData" : jsonData
-      // }
-
 
       jQuery.ajax({
         type : "post",
@@ -316,25 +304,34 @@ jQuery(document).ready( function(){
         },
         success: function(response) {
 
-          console.log(response);
+            jQuery('[id*="_register_error"]').html("");
 
-          jQuery('[id*="_register_error"]').html("");
-
-          if(response.status == false){
+            if(response.status == false){
               response.errors.forEach(element => {
                  jQuery("#"+element.id+"_register_error").html("<p style='color : #ff7c7c; font-size: 12px;'>"+element.text+"</p>");
               });
-          }else{
 
-            if(response.status == true){
+              if(response.errors.length == 1){
+                Object.values(response.errors).forEach(error => {
+                    if(error.id == 'correo_registrado_ticket'){
+                      jQuery('#email_login_ticket').val(correo_ticket);
+                      userData = response.user_data;
+                      jQuery('#modal_login').modal('show');//usuario ya registrado
+                    }
+                });
+              }
+              
+            }else{
+              if(response.status == true){//usuario nuevo
 
-              jQuery('#modalpayticket').modal('show');
-              userData = response.user_data;
+                jQuery('#modalpayticket').modal('show');
+                
+                userData = response.user_data;
+                console.log(userData);
 
+              }
             }
-
-          }
-
+          
 
         },
         beforeSend: function (qXHR, settings) {
@@ -387,7 +384,8 @@ jQuery(document).ready( function(){
       platform_pay : plataforma,
       json_data : jsonData,
       date : new Date(),
-      promo_code : promo_code
+      promo_code : promo_code,
+      login : login
     }
 
     jQuery.ajax({
@@ -398,6 +396,8 @@ jQuery(document).ready( function(){
             console.log(response);
         },
         success: function(response) {
+
+          console.log(response);
 
           if(response.status == false){
 
@@ -582,9 +582,96 @@ jQuery(document).ready( function(){
         jQuery('#promo_code_button_loading').fadeOut();
       },
 
+   })
+
   })
 
 
+  jQuery("#login_ticket").on("click" , function(){
+
+    user = jQuery("#email_login_ticket").val();
+    pass = jQuery("#password_login_ticket").val();
+
+    data = {
+      "user" : user,
+      "pass" : pass
+    }
+
+    jQuery.ajax({
+      type : "post",
+      url : wp_ajax_congreso_ticket.ajax_login_ticket,
+      data : data,
+      error: function(response){
+          console.log(response);
+      },
+      success: function(response) {
+
+        if(response.status == true){
+          
+          console.log("RESPONSE DEL LOGIN");
+          console.log(response);
+
+          let id_user_sinapsis = response.id_user;
+         
+          if(response.response.length != 0){
+
+            jQuery('#modal_login').modal('hide');
+            jQuery('#modalpayticket').modal('show');
+            userData = response.response;
+            login = 1;
+
+          }else{
+
+            userData.correo_ticket = jQuery("#correo_ticket").val();
+            
+            let data = {
+              "userData" : userData,
+              "jsonData" : jsonData
+            }
+
+            jQuery.ajax({
+              type : "post",
+              url : wp_ajax_congreso_ticket.ajax_register_user_ticket,
+              data : data,
+              error: function(response){
+                  console.log(response);
+              },
+              success: function(response) {
+                
+                if(response.status == true){
+                  jQuery('#modal_login').modal('hide');
+                  jQuery('#modalpayticket').modal('show');
+                  userData = response.response;
+
+                  userData.id_user_ticket = userData.id;
+                  userData.id_user = id_user_sinapsis;
+
+                  console.log("RESPONSE DEL USERDATA");
+                  console.log(userData);
+
+                  login = 1;                
+                }
+      
+              }
+          })
+
+
+
+          }
+
+        }else{
+          jQuery("#error_password_ticket").html('<p style="color: red">Contraseña incorrectar</p>');
+        }
+
+      },
+      beforeSend: function (qXHR, settings) {
+        jQuery('#loading_pay_ticket_login').fadeIn();
+      },
+      complete: function () {
+        jQuery('#loading_pay_ticket_login').fadeOut();
+      },
+
+  })
 
   })
 

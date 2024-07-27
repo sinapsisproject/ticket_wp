@@ -248,4 +248,50 @@
     </div>
 
 
+
+
+    <div class="modal fade" id="modal_login" aria-hidden="true" aria-labelledby="modal_login" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="text-center" style="padding-top: 30px; padding-left: 30px; padding-right: 30px;">
+                            <p style="color: #445AFF;">Tu correo electrónico ya está registrado en Sinapsis Clínica. Por favor, ingresa tu contraseña para continuar.</p>
+                        </div>
+                        <h4 class="modal-title mt-2" style="color: black;">Iniciar Sesión</h4>
+                    </div>
+                </div>
+                
+                <div class="modal-body" style="padding-top: 30px;">
+                    
+                    <div class="mb-4">
+                        <label for="email" class="form-label" style="color: #695C5C;">Correo electrónico</label>
+                        <input style="border-color: #cccdcd;" type="email" class="form-control" id="email_login_ticket" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label" style="color: #695C5C;">Contraseña</label>
+                        <input style="border-color: #cccdcd;" type="password" class="form-control" id="password_login_ticket">
+                        <div id="error_password_ticket"></div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div id="divbuttonwebpay"></div>
+                    <button id="login_ticket" class="btn btn-primary" data-bs-target="#modal_login">
+
+                    <div id="loading_pay_ticket_login" style="width: 1rem; height: 1rem; margin-right: 10px; display: none; margin-top: 4px;" class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                        Continuar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
 </div>
