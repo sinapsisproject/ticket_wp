@@ -82,74 +82,81 @@ jQuery(document).ready( function(){
                   // let id_button = tp.id;
 
                   if(tp.tpt != null){
-                    html += '<button class="collapse-congreso-item btn btn-primary mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#'+tp.id+'_collapse" aria-expanded="false" aria-controls="collapseExample">'+
-                              tp.tpt.nombre+
-                            '</button>';
+
                     
-                    html += '<div class="collapse collapse-congreso" id="'+tp.id+'_collapse">';
-                              
-                    tp.tpt.pa.forEach(pack => {
+                    if(tp.tpt.estado == "activo"){
 
-                        if(pack.ud.length == 1){
-                            
-                            pack.ud.forEach(unidad => {
 
-                              var valor_producto = 'no definido';
-
-                              unidad.pt.pre.forEach(precio => {
+                      html += '<button class="collapse-congreso-item btn btn-primary mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#'+tp.id+'_collapse" aria-expanded="false" aria-controls="collapseExample">'+
+                                tp.tpt.nombre+
+                              '</button>';
+                      
+                      html += '<div class="collapse collapse-congreso" id="'+tp.id+'_collapse">';
                                 
-                                if(precio.tpre.nombre_precio == 'Preventa 1' && precio.tpre.estado == 'activo'){
-                                  valor_producto = precio.valor;            
-                                }else if(precio.tpre.nombre_precio == 'Preventa 2' && precio.tpre.estado == 'activo'){
-                                  valor_producto = precio.valor;  
-                                }else if(precio.tpre.nombre_precio == 'Preventa 3' && precio.tpre.estado == 'activo'){
-                                  valor_producto = precio.valor;  
-                                }
+                      tp.tpt.pa.forEach(pack => {
 
+                          if(pack.ud.length == 1){
+                              
+                              pack.ud.forEach(unidad => {
+
+                                var valor_producto = 'no definido';
+
+                                unidad.pt.pre.forEach(precio => {
+                                  
+                                  if(precio.tpre.nombre_precio == 'Preventa 1' && precio.tpre.estado == 'activo'){
+                                    valor_producto = precio.valor;            
+                                  }else if(precio.tpre.nombre_precio == 'Preventa 2' && precio.tpre.estado == 'activo'){
+                                    valor_producto = precio.valor;  
+                                  }else if(precio.tpre.nombre_precio == 'Preventa 3' && precio.tpre.estado == 'activo'){
+                                    valor_producto = precio.valor;  
+                                  }
+
+                                });
+
+                                html += '<input nameProduct="'+unidad.pt.nombre+'" packId="'+pack.id+'" value="'+valor_producto+'" type="checkbox" class="btn-check" id="btn-check-'+pack.id+'-outlined" autocomplete="off">'+
+                                        '<label class="input-check-congreso btn btn-outline-secondary mb-2" for="btn-check-'+pack.id+'-outlined">'+unidad.pt.nombre+ ' - <strong>'+formattedNumberChileanMoney(valor_producto)+'</strong></label>';
+      
                               });
 
-                              html += '<input nameProduct="'+unidad.pt.nombre+'" packId="'+pack.id+'" value="'+valor_producto+'" type="checkbox" class="btn-check" id="btn-check-'+pack.id+'-outlined" autocomplete="off">'+
-                                      '<label class="input-check-congreso btn btn-outline-secondary mb-2" for="btn-check-'+pack.id+'-outlined">'+unidad.pt.nombre+ ' - <strong>'+formattedNumberChileanMoney(valor_producto)+'</strong></label>';
-    
+                          }
+
+                          if(pack.ud.length > 1){
+                              let name = '';
+                              let c = 1;
+
+                              var valor_producto = 0;
+                              pack.ud.forEach(unidad => {
+
+                                unidad.pt.pre.forEach(precio => {
+                                  
+                                  if(precio.tpre.nombre_precio == 'Preventa 1' && precio.tpre.estado == 'activo'){
+                                    valor_producto = precio.valor + valor_producto;            
+                                  }else if(precio.tpre.nombre_precio == 'Preventa 2' && precio.tpre.estado == 'activo'){
+                                    valor_producto = precio.valor + valor_producto;  
+                                  }else if(precio.tpre.nombre_precio == 'Preventa 3' && precio.tpre.estado == 'activo'){
+                                    valor_producto = precio.valor;
+                                  }
+
+                                });
+
+
+                                if(pack.ud.length == c){
+                                  name += unidad.pt.nombre
+                                }else{
+                                  name += unidad.pt.nombre+" + ";
+                                }
+                                c++;
                             });
 
-                        }
+                            html += '<input nameProduct="'+name+'" packId="'+pack.id+'" value="'+valor_producto+'" type="checkbox" class="btn-check" id="btn-check-'+pack.id+'-outlined" autocomplete="off">'+
+                                    '<label class=" input-check-congreso btn btn-outline-secondary mb-2" for="btn-check-'+pack.id+'-outlined">'+name+ ' - <strong>'+formattedNumberChileanMoney(valor_producto)+'</strong></label>';
+                          }       
 
-                        if(pack.ud.length > 1){
-                            let name = '';
-                            let c = 1;
+                      });
 
-                            var valor_producto = 0;
-                            pack.ud.forEach(unidad => {
-
-                              unidad.pt.pre.forEach(precio => {
-                                
-                                if(precio.tpre.nombre_precio == 'Preventa 1' && precio.tpre.estado == 'activo'){
-                                  valor_producto = precio.valor + valor_producto;            
-                                }else if(precio.tpre.nombre_precio == 'Preventa 2' && precio.tpre.estado == 'activo'){
-                                  valor_producto = precio.valor + valor_producto;  
-                                }else if(precio.tpre.nombre_precio == 'Preventa 3' && precio.tpre.estado == 'activo'){
-                                  valor_producto = precio.valor;
-                                }
-
-                              });
-
-
-                              if(pack.ud.length == c){
-                                name += unidad.pt.nombre
-                              }else{
-                                name += unidad.pt.nombre+" + ";
-                              }
-                              c++;
-                          });
-
-                          html += '<input nameProduct="'+name+'" packId="'+pack.id+'" value="'+valor_producto+'" type="checkbox" class="btn-check" id="btn-check-'+pack.id+'-outlined" autocomplete="off">'+
-                                  '<label class=" input-check-congreso btn btn-outline-secondary mb-2" for="btn-check-'+pack.id+'-outlined">'+name+ ' - <strong>'+formattedNumberChileanMoney(valor_producto)+'</strong></label>';
-                        }       
-
-                    });
-
-                    html += '</div>';
+                      html += '</div>';
+                      
+                    }
 
                   }
 
