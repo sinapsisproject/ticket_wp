@@ -149,7 +149,7 @@
                     <img src="https://sinapsisclinica.com/wp-content/uploads/2024/07/Endocrinologia-y-Diabetologia-Hospitalaria-Desde-la-Consulta-a-la-UPC-1.png" alt="">
                 </div>
                 <div class="col-12 col-md-7 mt-4 mt-md-0">
-                    <p style="font-size: 20px"><strong>Endocrinología y Diabetología Hospitalaria: desde la Consulta a la UPC.</strong></p>
+                    <p style="font-size: 20px"><strong>Congreso Medicina Interna en 5 Minutos.</strong></p>
                 </div>
 
 
